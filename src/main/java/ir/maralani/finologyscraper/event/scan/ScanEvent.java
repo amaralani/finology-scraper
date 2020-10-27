@@ -13,4 +13,5 @@ public class ScanEvent extends ApplicationEvent {
     }
 
     private String path;
+    private int numberOfRetries;
 }

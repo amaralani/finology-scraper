@@ -1,6 +1,7 @@
 package ir.maralani.finologyscraper.service.scraper;
 
 import ir.maralani.finologyscraper.dto.ScrapedPage;
+import org.springframework.scheduling.annotation.Async;
 
 import java.io.IOException;
 
@@ -11,6 +12,7 @@ import java.io.IOException;
  */
 public interface ScraperService {
 
+    @Async
     void scanPath(String path);
 
     /**

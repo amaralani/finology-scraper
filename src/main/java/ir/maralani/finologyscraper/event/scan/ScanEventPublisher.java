@@ -32,4 +32,13 @@ public class ScanEventPublisher {
     public void publishEvent(String path) {
         applicationEventPublisher.publishEvent(new ScanEvent(this, path));
     }
+
+    /**
+     * Publish an already existing {@link ScanEvent}. Useful for retries.
+     *
+     * @param scanEvent Provided {@link ScanEvent} to be published.
+     */
+    public void publishEvent(ScanEvent scanEvent) {
+        applicationEventPublisher.publishEvent(scanEvent);
+    }
 }

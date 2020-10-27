@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController("/")
@@ -49,9 +50,9 @@ public class MainController {
      * @return {@link org.springframework.http.HttpStatus#ACCEPTED} if request is processable.
      */
     @PostMapping(value = "scan", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> startScan(ScanRequest scanRequest) {
-        if (scanRequest.getBasePath() != null) {
-            scraperService.scanPath(scanRequest.getBasePath());
+    public ResponseEntity<Object> startScan(@RequestBody ScanRequest scanRequest) {
+        if (scanRequest.getPath() != null) {
+            scraperService.scanPath(scanRequest.getPath());
         } else {
             scraperService.scanPath(environment.getProperty("default.scan.start.path"));
         }
