@@ -20,11 +20,6 @@ public class ScrapedPage implements Serializable {
     private Product product;
 
     /**
-     * Related products gathered as a list of paths.
-     */
-    private List<String> relatedProducts;
-
-    /**
      * All the links inside the path.
      */
     private Set<String> links;
