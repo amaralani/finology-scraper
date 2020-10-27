@@ -52,9 +52,9 @@ public class MainController {
     @PostMapping(value = "scan", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> startScan(@RequestBody ScanRequest scanRequest) {
         if (scanRequest.getPath() != null) {
-            scraperService.scanPath(scanRequest.getPath());
+            scraperService.startScan(scanRequest.getPath());
         } else {
-            scraperService.scanPath(environment.getProperty("default.scan.start.path"));
+            scraperService.startScan(environment.getProperty("default.scan.start.path"));
         }
         // Non-committal response indicating that the process is started
         return ResponseEntity.accepted().build();

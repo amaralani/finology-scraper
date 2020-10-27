@@ -1,7 +1,6 @@
 package ir.maralani.finologyscraper.service.scraper;
 
 import ir.maralani.finologyscraper.dto.ScrapedPage;
-import org.springframework.scheduling.annotation.Async;
 
 import java.io.IOException;
 
@@ -12,8 +11,12 @@ import java.io.IOException;
  */
 public interface ScraperService {
 
-    @Async
-    void scanPath(String path);
+    /**
+     * Start scanning from a given path.
+     *
+     * @param path Path to start from.
+     */
+    void startScan(String path);
 
     /**
      * Scrape the provided path and retrieve the data as a {@link ScrapedPage} DTO.

@@ -3,13 +3,11 @@ package ir.maralani.finologyscraper.service.scraper;
 import ir.maralani.finologyscraper.dto.ScrapedPage;
 import ir.maralani.finologyscraper.event.scan.ScanEventPublisher;
 import ir.maralani.finologyscraper.model.Product;
-import ir.maralani.finologyscraper.service.product.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -30,19 +28,24 @@ public class DefaultScraperService implements ScraperService {
      */
     public final ScanEventPublisher scanEventPublisher;
 
+    /**
+     * Redis template.
+     */
     public final RedisTemplate<String, ScrapedPage> redisTemplate;
 
-    public final ProductService productService;
-
-    public DefaultScraperService(ScanEventPublisher scanEventPublisher,
-                                 RedisTemplate<String, ScrapedPage> redisTemplate, ProductService productService) {
+    /**
+     * Constructor.
+     *
+     * @param scanEventPublisher Event publisher for scan events.
+     * @param redisTemplate      Redis template to interact with Redis.
+     */
+    public DefaultScraperService(ScanEventPublisher scanEventPublisher, RedisTemplate<String, ScrapedPage> redisTemplate) {
         this.scanEventPublisher = scanEventPublisher;
         this.redisTemplate = redisTemplate;
-        this.productService = productService;
     }
 
     @Override
-    public void scanPath(String path) {
+    public void startScan(String path) {
         scanEventPublisher.publishEvent(path);
     }
 
@@ -64,7 +67,13 @@ public class DefaultScraperService implements ScraperService {
         return scrapedPage;
     }
 
-    public void processProductPage(ScrapedPage scrapedPage, Document doc) {
+    /**
+     * Process a page and retrieve product info from it.
+     *
+     * @param scrapedPage
+     * @param doc
+     */
+    private void processProductPage(ScrapedPage scrapedPage, Document doc) {
         Product product = new Product();
         product.setPath(doc.location());
         Element mainProductDiv = doc.selectFirst(".product-info-main");
@@ -84,10 +93,16 @@ public class DefaultScraperService implements ScraperService {
         }
 
         scrapedPage.setProduct(product);
-        scrapedPage.setRelatedProducts(doc.select(".related .product-item-info a.product-item-link").eachAttr("href"));
     }
 
-    public Set<String> findAllLinks(Document document) {
+    /**
+     * Retrieve all links from a page.
+     * Since using too many filters crashes the site, ignore them. Also ignore anchors.
+     *
+     * @param document The page to find the links in.
+     * @return A set containing links as strings.
+     */
+    private Set<String> findAllLinks(Document document) {
         // It looks like that too many filters cause the site to crash, so ignore the filters.
         document.select("#layered-filter-block").remove();
         return document.select("a").eachAttr("href").stream()
