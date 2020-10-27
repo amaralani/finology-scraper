@@ -14,13 +14,12 @@ import java.io.Serializable;
 @Table(name = "product")
 @Data
 public class Product implements Serializable {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    private Integer id;
+    private String path;
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
-    private Float price;
+    private String price;
     @Column(nullable = false)
     private String description;
     private String extraInformation;
