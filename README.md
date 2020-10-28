@@ -1,7 +1,9 @@
-#Scraper
+# Scraper
+
 <h5>Technical Assessment Task for Finology
 
-###Task Requirements
+### Task Requirements
+
 * A web crawler that starts from [this address](http://magento-test.finology.com.my/breathe-easy-tank.html) and extract product informations.
 * Extracted information should be saved in an SQLite database.
 * Extracted data must also be printed on the console.
@@ -13,7 +15,9 @@
 * Saved/printed products must be unique.
 
 ### Implementation
-There are two implementations provided in this repository: Synchronously and Asynchronously.
+There are two implementations provided in this repository on two branches: [Synchronously](https://github.com/amaralani/finology-scraper) (<code>main</code> branch) and [Asynchronously](https://github.com/amaralani/finology-scraper/tree/async).
+
+The async way was my first idea, but since sometimes the test application became unresponsive under load, I decided to add the sync solution as main. This should be said that the solution using Spring Application Events could be implemented synchronously too.
 
 Both of the implementations use :
 * Spring Boot
@@ -23,7 +27,7 @@ Both of the implementations use :
 * [JSoup](https://github.com/jhy/jsoup) Used to parse HTML pages 
  
 The asynchronous implementation uses Spring Application Events to fetch the addresses in parallel, but the synchronous 
-implementation uses a BlockingQueue to handle the addresses one by one.
+implementation uses a BlockingQueue to handle the addresses one by one. 
 
 In case of <code>HTTP status 5XX</code> or a <code>SocketTimeoutException</code> the request will back-off for two minutes and retry for up to 5 times.
 
@@ -112,4 +116,4 @@ Sample Response:
 ### Future work
 * Rate limiting
 * Realtime web display of the fetched products 
-  
+* Add CodeCov and Travis CI
