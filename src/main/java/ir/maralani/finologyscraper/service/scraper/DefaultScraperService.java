@@ -39,16 +39,30 @@ public class DefaultScraperService implements ScraperService {
      * @param scanEventPublisher Event publisher for scan events.
      * @param redisTemplate      Redis template to interact with Redis.
      */
-    public DefaultScraperService(ScanEventPublisher scanEventPublisher, RedisTemplate<String, ScrapedPage> redisTemplate) {
+    public DefaultScraperService(ScanEventPublisher scanEventPublisher,
+                                 RedisTemplate<String, ScrapedPage> redisTemplate) {
         this.scanEventPublisher = scanEventPublisher;
         this.redisTemplate = redisTemplate;
     }
 
+    /**
+     * Start scanning from the provided path.
+     *
+     * @param path Path to start from.
+     */
     @Override
     public void startScan(String path) {
         scanEventPublisher.publishEvent(path);
     }
 
+    /**
+     * Connect to the provided path if it's not already scanned, and extract the data.
+     * Also update redis for this path.
+     *
+     * @param path Provided path to be loaded.
+     * @return A {@link ScrapedPage} instance containing the extracted data.
+     * @throws IOException If connection to the path is problematic.
+     */
     @Override
     public ScrapedPage scrape(String path) throws IOException {
         if (redisTemplate.hasKey(path)) {
@@ -70,8 +84,8 @@ public class DefaultScraperService implements ScraperService {
     /**
      * Process a page and retrieve product info from it.
      *
-     * @param scrapedPage
-     * @param doc
+     * @param scrapedPage DTO to be filled.
+     * @param doc         Fetched document.
      */
     private void processProductPage(ScrapedPage scrapedPage, Document doc) {
         Product product = new Product();

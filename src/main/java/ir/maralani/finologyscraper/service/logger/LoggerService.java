@@ -8,5 +8,11 @@ import ir.maralani.finologyscraper.model.Product;
  * @author Amir
  */
 public interface LoggerService {
+
+    /**
+     * Display the product through appropriate logger.
+     *
+     * @param product Product to be logged.
+     */
     void log(Product product);
 }

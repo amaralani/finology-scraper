@@ -8,10 +8,24 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * An implementation of {@link CustomLogger} which logs the products in a file.
+ *
+ * @author Amir
+ */
 @Slf4j
 public class FileLogger implements CustomLogger {
+    /**
+     * Log file.
+     */
     private final File file;
 
+    /**
+     * Constructor.
+     * File creation is handled in the constructor. Also the old file would be removed.
+     *
+     * @throws IOException If file can not be created (i.e permission problem).
+     */
     public FileLogger() throws IOException {
         this.file = new File("log.txt");
         if (file.exists()) {

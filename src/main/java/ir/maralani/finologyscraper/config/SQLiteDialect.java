@@ -36,9 +36,4 @@ public class SQLiteDialect extends Dialect {
         registerColumnType(Types.CLOB, "clob");
         registerColumnType(Types.BOOLEAN, "integer");
     }
-
-    @Override
-    public IdentityColumnSupport getIdentityColumnSupport() {
-        return new SQLiteIdentityColumnSupport();
-    }
 }

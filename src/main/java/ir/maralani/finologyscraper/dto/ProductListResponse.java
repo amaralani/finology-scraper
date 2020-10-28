@@ -24,10 +24,11 @@ public class ProductListResponse {
     public ProductListResponse fromProductList(List<Product> products) {
         this.products = products.stream().map(product -> {
             ProductDTO productDTO = new ProductDTO();
-            product.setName(product.getName());
-            product.setPrice(product.getPrice());
-            product.setDescription(product.getDescription());
-            product.setExtraInformation(product.getExtraInformation());
+            productDTO.setName(product.getName());
+            productDTO.setPrice(product.getPrice());
+            productDTO.setDescription(product.getDescription());
+            productDTO.setExtraInformation(product.getExtraInformation());
+            productDTO.setLink(product.getPath());
             return productDTO;
         }).collect(Collectors.toList());
         return this;
