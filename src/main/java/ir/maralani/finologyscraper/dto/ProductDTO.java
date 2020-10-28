@@ -5,7 +5,8 @@ import lombok.Data;
 @Data
 public class ProductDTO {
     private String name;
-    private Float price;
+    private String price;
     private String description;
     private String extraInformation;
+    private String link;
 }

@@ -2,24 +2,19 @@ package ir.maralani.finologyscraper.service;
 
 import ir.maralani.finologyscraper.config.TestRedisConfiguration;
 import ir.maralani.finologyscraper.dto.ScrapedPage;
-import ir.maralani.finologyscraper.event.scan.ScanEventPublisher;
 import ir.maralani.finologyscraper.service.scraper.DefaultScraperService;
 import org.jsoup.HttpStatusException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.env.Environment;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
-import static org.mockito.Mockito.*;
 
 /**
  * Tests related to {@link DefaultScraperService}.
@@ -36,9 +31,6 @@ public class DefaultScraperServiceTest {
 
     @Autowired
     private RedisTemplate<String, ScrapedPage> redisTemplate;
-
-    @MockBean
-    private ScanEventPublisher scanEventPublisherMock;
 
     /**
      * Spring environment.
@@ -77,6 +69,5 @@ public class DefaultScraperServiceTest {
     @Test
     public void startScan() {
         defaultScraperService.startScan(environment.getProperty("default.scan.start.path"));
-        verify(scanEventPublisherMock, only()).publishEvent(environment.getProperty("default.scan.start.path"));
     }
 }

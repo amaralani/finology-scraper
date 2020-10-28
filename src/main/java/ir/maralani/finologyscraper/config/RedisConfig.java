@@ -15,7 +15,7 @@ public class RedisConfig {
     @Bean
     JedisConnectionFactory jedisConnectionFactory() {
         // Use the redis defined in docker-compose
-        return new JedisConnectionFactory(new RedisStandaloneConfiguration("redis", 6379));
+        return new JedisConnectionFactory(new RedisStandaloneConfiguration("localhost", 6379));
     }
 
     @Bean

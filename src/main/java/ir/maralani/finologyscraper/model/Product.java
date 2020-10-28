@@ -26,7 +26,7 @@ public class Product implements Serializable {
 
     @Override
     public String toString() {
-        return "[\n" +
+        return "\n[\n" +
                 "Name: " + name + "\n" +
                 "Price: " + price + "\n" +
                 "Description: " + description + '\n' +
