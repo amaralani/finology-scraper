@@ -65,9 +65,4 @@ public class DefaultScraperServiceTest {
             fail("Unexpected exception", e);
         }
     }
-
-    @Test
-    public void startScan() {
-        defaultScraperService.startScan(environment.getProperty("default.scan.start.path"));
-    }
 }

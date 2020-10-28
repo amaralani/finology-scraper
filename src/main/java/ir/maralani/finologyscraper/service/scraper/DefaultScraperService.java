@@ -82,7 +82,7 @@ public class DefaultScraperService implements ScraperService {
         if (processThread == null) {
             processThread = new Thread(() -> {
                 try {
-                    queue.put(new ScanJob(path));
+                    queue.put(new ScanJob(path, 0));
                     processQueue();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -178,7 +178,7 @@ public class DefaultScraperService implements ScraperService {
                 // Could be handled with streams, but this makes it easier to delegate InterruptedException
                 for (String link : scrapedPage.getLinks()) {
                     if (!scannedPaths.contains(link)) {
-                        queue.put(new ScanJob(link));
+                        queue.put(new ScanJob(link, 0));
                     }
                 }
                 scannedPaths.add(path);
