@@ -19,7 +19,7 @@ public class DataSourceConfig {
     public DataSource dataSource() {
         final DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.sqlite.JDBC");
-        dataSource.setUrl("jdbc:sqlite:memory:myDb?cache=shared");
+        dataSource.setUrl("jdbc:sqlite:memory:scraperDB?cache=shared");
         dataSource.setUsername(env.getProperty("user"));
         dataSource.setPassword(env.getProperty("password"));
         return dataSource;
