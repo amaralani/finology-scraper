@@ -14,19 +14,19 @@ import org.springframework.data.redis.core.RedisTemplate;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.only;
+import static org.mockito.Mockito.verify;
 
 /**
  * Tests related to {@link DefaultScraperService}.
  *
  * @author Amir
  */
-@SpringBootTest(classes = TestRedisConfiguration.class, properties = "spring.main.allow-bean-definition-overriding=true")
+@SpringBootTest(classes = TestRedisConfiguration.class,
+        properties = "spring.main.allow-bean-definition-overriding=true")
 public class DefaultScraperServiceTest {
     /**
      * Injected service to be tested.
@@ -61,10 +61,16 @@ public class DefaultScraperServiceTest {
             assertThat(scrapedPage.getProduct()).isNotNull();
             assertThat(scrapedPage.getProduct().getName()).isEqualTo("Breathe-Easy Tank");
             assertThat(scrapedPage.getProduct().getDescription())
-                    .isEqualTo("The Breathe Easy Tank is so soft, lightweight, and comfortable, you won't even know it's there -- until its high-tech Cocona® fabric starts wicking sweat away from your body to help you stay dry and focused. Layer it over your favorite sports bra and get moving. • Machine wash/dry. • Cocona® fabric.");
+                    .isEqualTo(
+                            "The Breathe Easy Tank is so soft, lightweight, and comfortable, you won't even know it's" +
+                                    " there -- until its high-tech Cocona® fabric starts wicking sweat away from your" +
+                                    " body to help you stay dry and focused. Layer it over your favorite sports bra " +
+                                    "and get moving. • Machine wash/dry. • Cocona® fabric.");
             assertThat(scrapedPage.getProduct().getPrice()).isEqualTo("34");
             assertThat(scrapedPage.getProduct().getExtraInformation())
-                    .isEqualTo("Style: Tank | Material: Cocona® performance fabric, Cotton | Pattern: Solid | Climate: Indoor, Warm ");
+                    .isEqualTo(
+                            "Style: Tank | Material: Cocona® performance fabric, Cotton | Pattern: Solid | Climate: " +
+                                    "Indoor, Warm ");
 
             assertThat(redisTemplate.hasKey(basePath)).isTrue();
         } catch (HttpStatusException | SocketTimeoutException e) {
