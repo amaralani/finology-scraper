@@ -3,6 +3,7 @@ package ir.maralani.finologyscraper.config;
 import ir.maralani.finologyscraper.dto.ScrapedPage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
@@ -13,7 +14,8 @@ public class RedisConfig {
 
     @Bean
     JedisConnectionFactory jedisConnectionFactory() {
-        return new JedisConnectionFactory();
+        // Use the redis defined in docker-compose
+        return new JedisConnectionFactory(new RedisStandaloneConfiguration("redis", 6379));
     }
 
     @Bean
